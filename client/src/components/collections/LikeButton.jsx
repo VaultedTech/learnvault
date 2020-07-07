@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './LikeButton.css';
+// import './LikeButton.css';
 
 const LikeButton = ({ id, loggedInUser }) => {
   function likeButtonClick(eventId, userId) {

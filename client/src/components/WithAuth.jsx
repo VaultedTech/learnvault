@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
-const WithAuth = ({ Component }) => {
+const WithAuth = ({ loggedInUser, Component }) => {
   const [loading, setLoading] = useState(true);
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    fetch('/api/checkToken')
+    fetch('/api/user')
       .then((res) => {
         if (res.status === 200) {
           setLoading(false);
@@ -31,7 +31,7 @@ const WithAuth = ({ Component }) => {
   }
 
   return (
-    <Component />
+    <Component loggedInUser={loggedInUser} />
   );
 };
 

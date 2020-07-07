@@ -21,4 +21,5 @@ module.exports = {
     'react/prop-types': 0,
     'no-underscore-dangle': 0
   },
+  root: true,
 };

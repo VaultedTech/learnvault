@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react';
 
 import Collection from './Collection';
 
-const SavedCollections = ({ loggedInUser }) => {
+const SavedCollections = ({ loggedInUser, userId }) => {
+  console.log('SavedCollections.jsx Line 6 userId =', userId);
   const [collections, setCollections] = useState([]);
   const currentCollections = [];
-
+  if (!loggedInUser) {
+    window.history.back();
+  }
   useEffect(() => {
     // Get all collections for user
+    console.log('SavedCollections.jsx Line 14 loggedInUser =', loggedInUser);
 
-    fetch(`/api/collections/savedcollections/${loggedInUser}`, {
+    fetch('/api/collections/savedcollections', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -17,6 +21,7 @@ const SavedCollections = ({ loggedInUser }) => {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log('SavedCollections.jsx Line 24 data =', data);
         if (data.length > 0) {
           data.map((id) => fetch(`/api/collections/${id}`)
             .then((res) => res.json())

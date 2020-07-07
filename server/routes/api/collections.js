@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const Collection = require('../../models/Collection');
-const User = require('../../models/user');
+const User = require('../../models/userModel');
 
 /* ================== Collection Schema ==================
   author: {},       // The creator of the collection - references user table
@@ -146,32 +146,34 @@ router.post(
 // @desc    Get a collection by ID
 // @access  Private
 
-router.get('/:id', async (req, res) => {
-  try {
-    // Get user ID
+// router.get('/:id', async (req, res) => {
+//   console.log('server/routes/api/collections.js Line 150 req.params =', req.params.id);
 
-    const collection = await Collection.findById(req.params.id);
+//   try {
+//     // Get user ID
+//     const collection = await Collection.findById(req.params.id);
+//     console.log('server/routes/api/collections.js Line 155 collection =', collection);
 
-    // Check if collection is public or private
-    // If collection is private - check if user has access to view collection
+//     // Check if collection is public or private
+//     // If collection is private - check if user has access to view collection
 
-    if (!collection) {
-      return res.status(404).json({ msg: 'Collection not found' });
-    }
+//     if (!collection) {
+//       return res.status(404).json({ msg: 'Collection not found' });
+//     }
 
-    return res.json(collection);
-  } catch (err) {
-    console.error(err.message);
-    if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Collection not found' });
-    }
-    return res
-      .status(500)
-      .send(
-        'Server Error or Collection not found due to invalid Collection ID',
-      );
-  }
-});
+//     return res.json(collection);
+//   } catch (err) {
+//     console.error('Error in server/routes/api/collections.js Line 166', err.message);
+//     if (err.kind === 'ObjectId') {
+//       return res.status(404).json({ msg: 'Collection not found' });
+//     }
+//     return res
+//       .status(500)
+//       .send(
+//         'Server Error or Collection not found due to invalid Collection ID',
+//       );
+//   }
+// });
 
 // PUT '/api/collections/:id' - Edit or update a collection
 // @route   PUT api/collections/:id
@@ -243,7 +245,7 @@ router.delete('/:id', async (req, res) => {
     const collection = await Collection.findById(req.params.id);
 
     if (!collection) {
-      return res.status(404).json({ msg: 'Collection not found' });
+      return res.status(404).json({ msg: ':/id Collection not found' });
     }
 
     // TO DO: Check if user is authorized to delete post
@@ -314,15 +316,22 @@ router.put('/unlike/:id', async (req, res) => {
 // @desc    Save a collection by ID
 // @access  Private
 
-router.put('/save/:id', async (req, res) => {
-  const user = await User.findById((req.body.id));
+router.put('/save/:collectionId', async (req, res) => {
+  console.log('current user =', req.user);
+  // eslint-disable-next-line no-underscore-dangle
+  console.log('req.user.id =', req.user._id);
+  // eslint-disable-next-line no-underscore-dangle
+  const user = await User.findById((req.user._id));
+  // eslint-disable-next-line no-underscore-dangle
+  console.log('user.id =', user);
 
   try {
-    if (user.savedcollections.filter((col) => col === req.body.collectionId).length > 0) {
+    if (!user.savedcollections) user.savedcollections = [];
+    if (user.savedcollections.filter((col) => col === req.params.collectionId).length > 0) {
       return res.status(400).json({ msg: 'You have already saved this collection' });
     }
 
-    user.savedcollections.push(req.body.collectionId);
+    user.savedcollections.push(req.params.collectionId);
 
     await user.save();
 
@@ -338,20 +347,29 @@ router.put('/save/:id', async (req, res) => {
 // @desc    Get saved collections for logged in user
 // @access  Private
 
-router.get('/savedcollections/:userId', async (req, res) => {
+router.get('/savedcollections', async (req, res) => {
   // const collection = await Collection.findById((req.body.collectionId));
-  const user = await User.findById((req.params.userId));
+  // const user = await User.findById((req.params.userId));
+  // eslint-disable-next-line no-underscore-dangle
+  const user = await User.findById((req.user._id));
 
   try {
+    console.log('server savedCollections Line 357 user =', user);
+    if (!user.savedcollections) user.savedcollections = [];
     if (user.savedcollections.length === 0) {
       return res.status(400).json({ msg: 'You have not saved any collections' });
     }
 
     return res.send(user.savedcollections);
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in saved collections', err.message);
     return res.status(500).send('Server Error');
   }
+});
+
+router.get('/:id', async (req, res) => {
+  const collection = await Collection.findById((req.params.id));
+  return res.status(200).json(collection);
 });
 
 // PUT -     'api/collections/links/:id' - Add a link to a collection

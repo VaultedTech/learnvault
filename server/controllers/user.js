@@ -46,6 +46,7 @@ exports.loginUser = (req, res) => {
       const { _id: userId } = user;
       const payload = { userId };
       const token = jwt.sign(payload, secret, { expiresIn: '1h' });
+      console.log('Issuing a token in user.js Line 49 token =', token);
       return res.cookie('token', token, { httpOnly: true }).send({ attempt: 'success', userId });
     });
   });
