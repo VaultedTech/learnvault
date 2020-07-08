@@ -2,19 +2,21 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
-const WithAuth = ({ loggedInUser, Component }) => {
-  const [loading, setLoading] = useState(true);
-  const [redirect, setRedirect] = useState(false);
+interface IProps {
+  loggedInUser: string;
+  Component: any;
+}
+
+const WithAuth: React.FC<IProps> = ({ loggedInUser, Component }) => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [redirect, setRedirect] = useState<boolean>(false);
 
   useEffect(() => {
     fetch('/api/user')
       .then((res) => {
         if (res.status === 200) {
           setLoading(false);
-        } else {
-          const error = new Error(res.error);
-          throw error;
-        }
+        } 
       })
       .catch((err) => {
         console.error(err);

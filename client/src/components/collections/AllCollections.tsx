@@ -3,8 +3,20 @@ import { useParams } from 'react-router-dom';
 
 import Collection from './Collection';
 
-const AllCollections = ({ loggedInUser, userCollections }) => {
-  const [collections, setCollections] = useState([]);
+type collectionObject = {
+  _id: string,
+  title: string,
+  description: string,
+  author: string
+};
+
+interface IProps {
+  loggedInUser: string;
+  userCollections?: boolean;
+}
+
+const AllCollections: React.FC<IProps> = ({ loggedInUser, userCollections }) => {
+  const [collections, setCollections] = useState<collectionObject[]>([]);
   const { userId } = useParams();
 
   useEffect(() => {

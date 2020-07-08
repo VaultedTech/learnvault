@@ -6,8 +6,26 @@ import './ExpandedCollection.css';
 import LikeButton from './LikeButton';
 import SaveButton from './SaveButton';
 
-const ExpandedCollection = ({ loggedInUser }) => {
-  const [collection, setCollection] = useState([]);
+interface IProps {
+  loggedInUser: string;
+}
+
+type collectionObject = {
+  _id: string,
+  title: string,
+  description: string,
+  author: string,
+  links: string[]
+};
+
+const ExpandedCollection: React.FC<IProps> = ({ loggedInUser }) => {
+  const [collection, setCollection] = useState<collectionObject>({
+    _id: '',
+    title: '',
+    description: '',
+    author: '',
+    links: []
+  });
 
   const { id } = useParams();
 
@@ -37,7 +55,7 @@ const ExpandedCollection = ({ loggedInUser }) => {
       {collection.links && (
         <div className="links">
           {collection.links.map(
-            (link) => (
+            (link: string) => (
               <div className="links__item" key={link}>
                 <a href={link} target="_blank" rel="noreferrer">{link}</a>
               </div>

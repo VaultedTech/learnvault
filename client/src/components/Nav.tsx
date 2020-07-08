@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-
 import './Nav.css';
 
-const Nav = ({ loggedInUser, setLoggedInUser }) => {
+interface IProps {
+  loggedInUser: string;
+  setLoggedInUser: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Nav: React.FC<IProps> = ({ loggedInUser, setLoggedInUser }) => {
   const history = useHistory();
 
   const logout = () => {
@@ -15,8 +19,10 @@ const Nav = ({ loggedInUser, setLoggedInUser }) => {
         if (res.status === 200) {
           return res.json();
         }
-        const error = new Error(res.error);
-        throw error;
+      })
+      .catch((err) => {
+        // TODO: handle error if fetch attempt fails
+        console.log('Error on logout: ', err);
       });
     setLoggedInUser('');
     history.push('/');

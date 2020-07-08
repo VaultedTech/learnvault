@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-const Login = ({ setLoggedInUser }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+type LoginEvent = React.MouseEvent<HTMLButtonElement, MouseEvent>;
+
+interface IProps {
+  setLoggedInUser: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Login: React.FC<IProps> = ({ setLoggedInUser }) => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const history = useHistory();
 
-  const login = (e) => {
+  const login = (e: LoginEvent): void => {
     e.preventDefault();
 
     if (!email || !password) return;

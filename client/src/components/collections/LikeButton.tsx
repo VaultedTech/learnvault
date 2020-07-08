@@ -1,10 +1,16 @@
 import React from 'react';
+// import './LikeButton.css';
 
-const SaveButton = ({ id, loggedInUser }) => {
-  function likeButtonClick(eventId, userId) {
+interface IProps {
+  id: string;
+  loggedInUser: string;
+}
+
+const LikeButton: React.FC<IProps> = ({ id, loggedInUser }) => {
+  function likeButtonClick(eventId: string, userId: string) {
     const payload = { id: userId, collectionId: id };
 
-    fetch(`/api/collections/save/${id}`, {
+    fetch(`/api/collections/like/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -22,10 +28,10 @@ const SaveButton = ({ id, loggedInUser }) => {
 
   return (
     <button onClick={() => likeButtonClick(id, loggedInUser)} type="button" className="button-like">
-      <i className="far fa-star" />
-    &nbsp; Save Collection
+      <i className="far fa-thumbs-up" />
+    &nbsp; Like Collection
     </button>
   );
 };
 
-export default SaveButton;
+export default LikeButton;

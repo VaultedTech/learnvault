@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-
 import { useHistory } from 'react-router-dom';
-
 import './Register.css';
 
-const register = ({ setLoggedInUser }) => {
+type RegisterEvent = React.MouseEvent<HTMLInputElement, MouseEvent>;
+
+interface IProps {
+  setLoggedInUser: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const register: React.FC<IProps> = ({ setLoggedInUser }) => {
   const history = useHistory();
 
   // -----------
@@ -153,7 +157,7 @@ const register = ({ setLoggedInUser }) => {
   // Form submit
   // -----------
 
-  const submitForm = (e) => {
+  const submitForm = (e: RegisterEvent) => {
     e.preventDefault();
 
     // Clear our all errors before validating
