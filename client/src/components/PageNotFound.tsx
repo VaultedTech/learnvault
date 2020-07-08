@@ -2,7 +2,7 @@ import React from 'react';
 
 import './PageNotFound.css';
 
-const PageNotFound = () => (
+const PageNotFound: React.FC = () => (
   <div className="page-not-found">Page not found.</div>
 );
 

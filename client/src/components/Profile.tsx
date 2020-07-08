@@ -1,6 +1,10 @@
 import React from 'react';
 
-const Profile = ({ loggedInUser }) => {
+interface IProps {
+  loggedInUser: string;
+}
+
+const Profile: React.FC<IProps> = ({ loggedInUser }) => {
   console.log('loggedInUser =', loggedInUser);
   let formatUsername = '';
 

@@ -1,15 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import LikeButton from './LikeButton';
 import SaveButton from './SaveButton';
-
 import './Collection.css';
 
-const Collection = ({
-  id, title, description, author, loggedInUser,
-}) => (
+interface IProps {
+  id: string;
+  title: string; 
+  description: string; 
+  author: string; 
+  loggedInUser: string;
+}
 
+const Collection: React.FC<IProps> = ({
+  id, 
+  title, 
+  description, 
+  author, 
+  loggedInUser
+}) => (
   <div key={id} className="collection">
     <h1 className="collection__title">
       {title}

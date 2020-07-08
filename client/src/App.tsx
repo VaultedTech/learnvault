@@ -14,9 +14,9 @@ import SavedCollections from './components/collections/SavedCollections';
 
 import './App.css';
 
-const App = () => {
-  const [loggedInUser, setLoggedInUser] = useState('');
-  const [userId, setUserId] = useState('');
+const App: React.FC = () => {
+  const [loggedInUser, setLoggedInUser] = useState<string>('');
+  const [userId, setUserId] = useState<string>('');
 
   useEffect(() => {
     fetch('/api/user')
@@ -24,8 +24,6 @@ const App = () => {
         if (res.status === 200) {
           return res.json();
         }
-        const error = new Error(res.error);
-        throw error;
       })
       .then((data) => {
         setLoggedInUser(data.username);
@@ -57,6 +55,7 @@ const App = () => {
 
           <Route path="/collections/user/:userId">
             <AllCollections userCollections loggedInUser={loggedInUser} />
+            {/* <AllCollections loggedInUser={loggedInUser} /> */}
           </Route>
 
           <Route path="/collections/:id">

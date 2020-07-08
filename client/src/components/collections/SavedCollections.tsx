@@ -2,10 +2,22 @@ import React, { useState, useEffect } from 'react';
 
 import Collection from './Collection';
 
-const SavedCollections = ({ loggedInUser, userId }) => {
+type collectionObject = {
+  _id: string,
+  title: string,
+  description: string,
+  author: string
+};
+
+interface IProps {
+  loggedInUser: string;
+  userId: string;
+}
+
+const SavedCollections: React.FC<IProps> = ({ loggedInUser, userId }) => {
   console.log('SavedCollections.jsx Line 6 userId =', userId);
-  const [collections, setCollections] = useState([]);
-  const currentCollections = [];
+  const [collections, setCollections] = useState<collectionObject[]>([]);
+  const currentCollections: collectionObject[] = [];
   if (!loggedInUser) {
     window.history.back();
   }
@@ -23,7 +35,7 @@ const SavedCollections = ({ loggedInUser, userId }) => {
       .then((data) => {
         console.log('SavedCollections.jsx Line 24 data =', data);
         if (data.length > 0) {
-          data.map((id) => fetch(`/api/collections/${id}`)
+          data.map((id: string) => fetch(`/api/collections/${id}`)
             .then((res) => res.json())
             .then((result) => {
               currentCollections.push(result);
@@ -38,7 +50,6 @@ const SavedCollections = ({ loggedInUser, userId }) => {
   }, []);
 
   return (
-
     <div>
 
       <h1>Saved Collections</h1>

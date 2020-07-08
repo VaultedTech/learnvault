@@ -2,7 +2,7 @@
   "name": "learnvault",
   "version": "1.0.0",
   "description": "A way to organize, share and discover great developer links of tutorials, blogs, and podcasts.",
-  "main": "prettier.config.js",
+  "main": "./client/src/index.tsx",
   "scripts": {
     "test": "jest --verbose"
   },  
@@ -14,15 +14,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/digitalgnome/learnvault.git"
+    "url": "git+https://github.com/VaultedTech/learnvault.git"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/digitalgnome/learnvault/issues"
+    "url": "https://github.com/VaultedTech/learnvault/issues"
   },
-  "homepage": "https://github.com/digitalgnome/learnvault#readme",
+  "homepage": "https://github.com/VaultedTech/learnvault#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
