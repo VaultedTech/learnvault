@@ -9,7 +9,7 @@
     "build": "webpack --mode production",
     "react": "webpack-dev-server --mode development --open --hot",
     "ts:build": "tsc -w",
-    "ts:run": "nodemon build/index.js",
+    "ts:run": "nodemon transpilation/index.js",
     "ts": "concurrently npm:ts:*",
     "test": "jest --verbose"
   },
