@@ -2,11 +2,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import {
-  configure, shallow,
+  configure, shallow, mount
 } from 'enzyme';
+import { act } from 'react-dom/test-utils';
 import Adapter from 'enzyme-adapter-react-16';
 // import toJson from 'enzyme-to-json';
-import { fetchCollection } from './fetch';
+import { fetchCollection } from '../__mocks__/fetch';
 
 // Enzyme is a wrapper around React test utilities which makes it easier to
 // shallow render and traverse the shallow rendered tree.
@@ -29,7 +30,7 @@ describe('React unit tests', () => {
 
     beforeAll(() => {
       wrapper = shallow(<Profile {...props} />);
-      });
+    });
 
     it('Renders a <h1> tag with the name prop', () => {
       expect(wrapper.type()).toEqual('h1');
@@ -42,13 +43,20 @@ describe('React unit tests', () => {
     const props = { loggedInUser: {}, userCollections: null };
 
     beforeAll(() => {
-      wrapper = shallow(<Route path="/" exact>
-      <AllCollections {...props} />
-    </Route>);
+      act(() => {
+        wrapper = mount(
+          <Router>
+            <Route path="/" exact>
+              <AllCollections {...props} />
+            </Route>
+          </Router>)
+      });
     });
 
     it('Renders a <div> tag with user id', () => {
-      expect(wrapper.type()).toEqual('div');
+      // console.log('wrapper log: ', wrapper.find(Router).dive().find(Route).filter({ path: '/' }).find(AllCollections));
+      // expect(wrapper.find(Router).dive().find(Route).filter({ path: '/' }).find(AllCollections).find('div').find('h1').text()).toEqual('All Collections');      
+      expect(wrapper.find(AllCollections).find('div').find('h1').text()).toEqual('All Collections');
     });
   });
 });
