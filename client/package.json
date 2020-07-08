@@ -7,7 +7,14 @@
     "start": "concurrently \"npm run server\" \"npm run react\"",
     "server": "cd ../server && npm run server",
     "build": "webpack --mode production",
-    "react": "webpack-dev-server --mode development --open --hot"
+    "react": "webpack-dev-server --mode development --open --hot",
+    "test": "jest --verbose"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./__mocks__/fileMock.js",
+      "\\.(css|less)$": "identity-obj-proxy"
+    }
   },
   "keywords": [],
   "author": "",
@@ -32,7 +39,13 @@
     "style-loader": "^1.2.1",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "babel-jest": "^26.1.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^26.1.0",
+    "react-test-renderer": "^16.13.1"
   },
   "dependencies": {
     "prop-types": "^15.7.2",

@@ -1,47 +1,24 @@
-const path = require('path');
-
-const HtmlWebPackPlugin = require('html-webpack-plugin');
-
+// webpack.config.js
 module.exports = {
-  entry: './src/index.jsx',
-  output: {
-    path: path.join(__dirname, '/dist'),
-    filename: 'bundle.js',
-    publicPath: '/',
-  },
   module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-react'],
-          },
-        },
-      },
-      {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(png|jpg|gif|svg)$/,
-        use: [
-          {
-            loader: 'file-loader',
-          },
-        ],
-      },
+    loaders: [
+      {exclude: ['node_modules'], loader: 'babel', test: /\.jsx?$/},
+      {loader: 'style-loader!css-loader', test: /\.css$/},
+      {loader: 'url-loader', test: /\.gif$/},
+      {loader: 'file-loader', test: /\.(ttf|eot|svg)$/},
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    alias: {
+      config$: './configs/app-config.js',
+      react: './vendor/react-master',
+    },
+    extensions: ['', 'js', 'jsx'],
+    modules: [
+      'node_modules',
+      'bower_components',
+      'shared',
+      '/shared/vendor/modules',
+    ],
   },
-  plugins: [
-    new HtmlWebPackPlugin({
-      hash: true,
-      template: './src/index.html',
-    }),
-  ],
 };
